@@ -14,6 +14,16 @@ def is_prime(n: int) -> bool:
     False
     """
     # PUT YOUR CODE HERE
+    prime = True
+    if n == 2:
+        return True
+    elif n == 1:
+        return False
+    else:
+        for i in range(2, n):
+            if n % i == 0:
+                prime = False
+    return prime
     pass
 
 
@@ -27,6 +37,12 @@ def gcd(a: int, b: int) -> int:
     1
     """
     # PUT YOUR CODE HERE
+    while a != 0 and b != 0:
+        if a > b:
+            a = a % b
+        else:
+            b = b % a
+    return a+b
     pass
 
 
@@ -39,7 +55,26 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     # PUT YOUR CODE HERE
-    pass
+    phi0 = phi
+    y = 0
+    x = 1
+
+    if phi != 1:
+        while e > 1:
+            whole_part = e // phi
+            temp = phi
+            phi = e % phi
+            e = temp
+            temp = y
+            y = x - whole_part * y
+            x = temp
+        if x < 0:
+            x = x + phi0
+        return x
+    return 0
+
+
+pass
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -50,12 +85,15 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # n = pq
     # PUT YOUR CODE HERE
+    n = p * q
 
     # phi = (p-1)(q-1)
     # PUT YOUR CODE HERE
+    phi = (p - 1) * (q - 1)
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
+
 
     # Use Euclid's Algorithm to verify that e and phi(n) are coprime
     g = gcd(e, phi)
@@ -68,7 +106,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    return (e, n), (d, n)
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:

@@ -1,5 +1,6 @@
 import random
 import typing as tp
+from copy import deepcopy
 
 import pygame
 from pygame.locals import *
@@ -46,7 +47,7 @@ class GameOfLife:
 
         # Создание списка клеток
         # PUT YOUR CODE HERE
-
+        self.grid = self.create_grid(randomize=True)
         running = True
         while running:
             for event in pygame.event.get():
@@ -57,12 +58,15 @@ class GameOfLife:
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
             # PUT YOUR CODE HERE
+            self.draw_grid()
 
+            self.get_next_generation()
             pygame.display.flip()
             clock.tick(self.speed)
         pygame.quit()
 
     def create_grid(self, randomize: bool = False) -> Grid:
+
         """
         Создание списка клеток.
 
@@ -90,21 +94,31 @@ class GameOfLife:
             self.grid = [[random.randint(0, 1) for x in range(col)] for y in range(row)]
             '''self.grid.append(self.grid[col][row])'''
         return self.grid
+
     pass
 
 
-def draw_grid(self) -> None:
-    """
-    Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
-    """
-    for y in range(self.cell_height):
-        for x in range(self.cell_width):
-            if self.grid[y][x]:
-                pygame.draw.rect(self.screen, pygame.Color('green'), (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
+
+
+    def draw_grid(self) -> None:
+        for y in range(self.cell_height):
+            for x in range(self.cell_width):
+                if self.grid[y][x]:
+                    pygame.draw.rect(self.screen, pygame.Color('green'),(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
+
     pass
 
 
-def get_neighbours(self, cell: Cell) -> Cells:
+    def get_neighbours(self, cell: Cell) -> Cells:
+        row = cell[0]
+        col = cell[1]
+        Cells = []
+        for i in range(max(0, row - 1), min(self.cell_height, row + 2)):
+            for j in range(max(0, col - 1), min(self.cell_width, col + 2)):
+                if i == row and j == col:
+                    continue
+                Cells.append(self.grid[i][j])
+        return Cells
     """
     Вернуть список соседних клеток для клетки `cell`.
 
@@ -122,10 +136,24 @@ def get_neighbours(self, cell: Cell) -> Cells:
     out : Cells
         Список соседних клеток.
     """
+
     pass
 
 
-def get_next_generation(self) -> Grid:
+    def get_next_generation(self) -> Grid:
+        new_grid = deepcopy(self.grid)
+        for y in range(self.cell_height):
+            for x in range(self.cell_width):
+
+
+                if (len( self.get_neighbours((y, x))) == 2 or len( self.get_neighbours((y, x))) == 3) and self.grid[y][x] == 1:
+                    new_grid[y][x] = 1
+                elif len( self.get_neighbours((y, x))) == 3 and self.grid[y][x] == 0:
+                    new_grid[y][x] = 1
+                else:
+                    new_grid[y][x] = 0
+        self.grid = new_grid
+        return self.grid
     """
     Получить следующее поколение клеток.
 
@@ -134,4 +162,5 @@ def get_next_generation(self) -> Grid:
     out : Grid
         Новое поколение клеток.
     """
+
     pass

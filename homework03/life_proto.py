@@ -11,8 +11,9 @@ Grid = tp.List[Cells]
 
 class GameOfLife:
     def __init__(
-        self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
+            self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
     ) -> None:
+        self.grid = []
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -79,41 +80,58 @@ class GameOfLife:
         out : Grid
             Матрица клеток размером `cell_height` х `cell_width`.
         """
-        pass
 
-    def draw_grid(self) -> None:
-        """
-        Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
-        """
-        pass
+        self.grid = []
+        col = self.cell_width
+        row = self.cell_height
+        self.grid = [[0 for x in range(col)] for y in range(row)]
 
-    def get_neighbours(self, cell: Cell) -> Cells:
-        """
-        Вернуть список соседних клеток для клетки `cell`.
+        if randomize:
+            self.grid = [[random.randint(0, 1) for x in range(col)] for y in range(row)]
+            '''self.grid.append(self.grid[col][row])'''
+        return self.grid
+    pass
 
-        Соседними считаются клетки по горизонтали, вертикали и диагоналям,
-        то есть, во всех направлениях.
 
-        Parameters
-        ----------
-        cell : Cell
-            Клетка, для которой необходимо получить список соседей. Клетка
-            представлена кортежем, содержащим ее координаты на игровом поле.
+def draw_grid(self) -> None:
+    """
+    Отрисовка списка клеток с закрашиванием их в соответствующе цвета.
+    """
+    for y in range(self.cell_height):
+        for x in range(self.cell_width):
+            if self.grid[y][x]:
+                pygame.draw.rect(self.screen, pygame.Color('green'), (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
+    pass
 
-        Returns
-        ----------
-        out : Cells
-            Список соседних клеток.
-        """
-        pass
 
-    def get_next_generation(self) -> Grid:
-        """
-        Получить следующее поколение клеток.
+def get_neighbours(self, cell: Cell) -> Cells:
+    """
+    Вернуть список соседних клеток для клетки `cell`.
 
-        Returns
-        ----------
-        out : Grid
-            Новое поколение клеток.
-        """
-        pass
+    Соседними считаются клетки по горизонтали, вертикали и диагоналям,
+    то есть, во всех направлениях.
+
+    Parameters
+    ----------
+    cell : Cell
+        Клетка, для которой необходимо получить список соседей. Клетка
+        представлена кортежем, содержащим ее координаты на игровом поле.
+
+    Returns
+    ----------
+    out : Cells
+        Список соседних клеток.
+    """
+    pass
+
+
+def get_next_generation(self) -> Grid:
+    """
+    Получить следующее поколение клеток.
+
+    Returns
+    ----------
+    out : Grid
+        Новое поколение клеток.
+    """
+    pass

@@ -25,6 +25,7 @@ class TestGameOfLife(unittest.TestCase):
     def test_can_create_an_empty_grid(self):
         game = life_proto.GameOfLife(width=3, height=3, cell_size=1)
         grid = game.create_grid(randomize=False)
+        print(self.grid)
         self.assertEqual([[0, 0, 0], [0, 0, 0], [0, 0, 0]], grid)
 
     def test_can_create_a_random_grid(self):

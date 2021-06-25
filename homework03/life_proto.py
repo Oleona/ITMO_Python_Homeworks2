@@ -97,17 +97,14 @@ class GameOfLife:
 
     pass
 
-
-
-
     def draw_grid(self) -> None:
         for y in range(self.cell_height):
             for x in range(self.cell_width):
                 if self.grid[y][x]:
-                    pygame.draw.rect(self.screen, pygame.Color('green'),(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
+                    pygame.draw.rect(self.screen, pygame.Color('green'),
+                                     (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
 
     pass
-
 
     def get_neighbours(self, cell: Cell) -> Cells:
         row = cell[0]
@@ -119,6 +116,7 @@ class GameOfLife:
                     continue
                 Cells.append(self.grid[i][j])
         return Cells
+
     """
     Вернуть список соседних клеток для клетки `cell`.
 
@@ -139,21 +137,25 @@ class GameOfLife:
 
     pass
 
-
     def get_next_generation(self) -> Grid:
         new_grid = deepcopy(self.grid)
         for y in range(self.cell_height):
             for x in range(self.cell_width):
-
-
-                if (len( self.get_neighbours((y, x))) == 2 or len( self.get_neighbours((y, x))) == 3) and self.grid[y][x] == 1:
-                    new_grid[y][x] = 1
-                elif len( self.get_neighbours((y, x))) == 3 and self.grid[y][x] == 0:
-                    new_grid[y][x] = 1
+                neighbours = self.get_neighbours((y, x))
+                if self.grid[y][x]:
+                    if sum(neighbours) == 2 or sum(neighbours) == 3:
+                        new_grid[y][x] = 1
+                    else:
+                        new_grid[y][x] = 0
                 else:
-                    new_grid[y][x] = 0
+                    if sum(neighbours) == 3:
+                        new_grid[y][x] = 1
+                    else:
+                        new_grid[y][x] = 0
+
         self.grid = new_grid
         return self.grid
+
     """
     Получить следующее поколение клеток.
 

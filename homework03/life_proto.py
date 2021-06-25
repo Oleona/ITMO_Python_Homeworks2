@@ -103,6 +103,9 @@ class GameOfLife:
                 if self.grid[y][x]:
                     pygame.draw.rect(self.screen, pygame.Color('green'),
                                      (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
+                else:
+                    pygame.draw.rect(self.screen, pygame.Color('white'),
+                                     (x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size))
 
     pass
 
@@ -166,3 +169,6 @@ class GameOfLife:
     """
 
     pass
+if __name__ == '__main__':
+    game = GameOfLife()
+    game.run()

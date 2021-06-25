@@ -38,7 +38,7 @@ class TestGameOfLife(unittest.TestCase):
         game = life_proto.GameOfLife(width=self.width, height=self.height, cell_size=1)
         game.grid = self.grid
         neighbours = game.get_neighbours((2, 3))
-        print(neighbours)
+
         self.assertEqual(8, len(neighbours))
         self.assertEqual(4, sum(neighbours))
 
